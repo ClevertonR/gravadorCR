@@ -1,0 +1,38 @@
+<html>
+<head>
+  <title>Fofoqueiro virtual do clevim</title>
+</head>
+<body>
+  <button id="start-button">Iniciar</button>
+  <button id="stop-button">Parar</button>
+  <div id="transcription"></div>
+  <script>
+    var speech = new webkitSpeechRecognition();
+    speech.continuous = true;
+    speech.interimResults = false;
+    speech.lang = 'pt-BR';
+    speech.maxAlternatives = 1;
+
+    var startButton = document.getElementById("start-button");
+    var stopButton = document.getElementById("stop-button");
+    var transcription = document.getElementById("transcription");
+
+    startButton.onclick = function() {
+      speech.start();
+      startButton.disabled = true;
+      stopButton.disabled = false;
+    }
+
+    stopButton.onclick = function() {
+      speech.stop();
+      startButton.disabled = false;
+      stopButton.disabled = true;
+    }
+
+    speech.onresult = function(e) {
+      var result = e.results[e.resultIndex][0].transcript;
+      transcription.innerHTML = result;
+    }
+  </script>
+</body>
+</html>
